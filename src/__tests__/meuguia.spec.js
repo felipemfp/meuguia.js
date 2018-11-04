@@ -1,136 +1,131 @@
-import * as meuguia from '../meuguia'
-import nock from 'nock'
-import fs from 'fs'
+import * as meuguia from "../meuguia";
+import nock from "nock";
+import fs from "fs";
 
-const html = fs.readFileSync('src/__tests__/html/sample.html', 'utf8')
-const expected = [{
-    title: 'Igreja Universal',
-    time: '09h00',
+const html = fs.readFileSync("src/__tests__/html/sample.html", "utf8");
+const expected = [
+  {
+    title: "Programação Paga",
+    time: "09:30",
     channel: {
-      description: 'Canal 21',
-      id: 'C21'
+      description: "AMC",
+      id: "MGM"
     }
   },
   {
-    title: 'Top TVZ',
-    time: '10h00',
+    title: "Diários da Floresta",
+    time: "09:30",
     channel: {
-      description: 'Multishow',
-      id: 'MSW',
+      description: "Canal Brasil",
+      id: "CBR"
     }
   },
   {
-    title: 'Fala Brasil Especial',
-    time: '10h00',
+    title: "A Outra",
+    time: "07:54",
     channel: {
-      description: 'Record News',
-      id: 'RCN'
-    }
-  }, {
-    title: 'Leilão Virtual Chave de Ouro',
-    time: '10h00',
-    channel: {
-      description: 'Terra Viva',
-      id: 'TVV'
+      description: "Cinemax",
+      id: "MNX"
     }
   }
-]
+];
 
-describe('getAll', () => {
-  nock('https://meuguia.tv')
+describe("getAll", () => {
+  nock("https://meuguia.tv")
     .get(/\/programacao/)
-    .reply(200, html)
+    .reply(200, html);
 
-  it('should return expected', () => {
-    return meuguia.getAll()
-      .then(results => expect(results).toEqual(expected))
-  })
-})
+  it("should return expected", () => {
+    return meuguia.getAll().then(results => expect(results).toEqual(expected));
+  });
+});
 
-describe('getMovies', () => {
-  nock('https://meuguia.tv')
+describe("getMovies", () => {
+  nock("https://meuguia.tv")
     .get(/\/programacao/)
-    .reply(200, html)
+    .reply(200, html);
 
-  it('should return expected', () => {
-    return meuguia.getMovies()
-      .then(results => expect(results).toEqual(expected))
-  })
-})
+  it("should return expected", () => {
+    return meuguia
+      .getMovies()
+      .then(results => expect(results).toEqual(expected));
+  });
+});
 
-describe('getTvSeries', () => {
-  nock('https://meuguia.tv')
+describe("getTvSeries", () => {
+  nock("https://meuguia.tv")
     .get(/\/programacao/)
-    .reply(200, html)
+    .reply(200, html);
 
-  it('should return expected', () => {
-    return meuguia.getTvSeries()
-      .then(results => expect(results).toEqual(expected))
-  })
-})
+  it("should return expected", () => {
+    return meuguia
+      .getTvSeries()
+      .then(results => expect(results).toEqual(expected));
+  });
+});
 
-describe('getSports', () => {
-  nock('https://meuguia.tv')
+describe("getSports", () => {
+  nock("https://meuguia.tv")
     .get(/\/programacao/)
-    .reply(200, html)
+    .reply(200, html);
 
-  it('should return expected', () => {
-    return meuguia.getSports()
-      .then(results => expect(results).toEqual(expected))
-  })
-})
+  it("should return expected", () => {
+    return meuguia
+      .getSports()
+      .then(results => expect(results).toEqual(expected));
+  });
+});
 
-describe('getKids', () => {
-  nock('https://meuguia.tv')
+describe("getKids", () => {
+  nock("https://meuguia.tv")
     .get(/\/programacao/)
-    .reply(200, html)
+    .reply(200, html);
 
-  it('should return expected', () => {
-    return meuguia.getKids()
-      .then(results => expect(results).toEqual(expected))
-  })
-})
+  it("should return expected", () => {
+    return meuguia.getKids().then(results => expect(results).toEqual(expected));
+  });
+});
 
-describe('getDocumentaries', () => {
-  nock('https://meuguia.tv')
+describe("getDocumentaries", () => {
+  nock("https://meuguia.tv")
     .get(/\/programacao/)
-    .reply(200, html)
+    .reply(200, html);
 
-  it('should return expected', () => {
-    return meuguia.getDocumentaries()
-      .then(results => expect(results).toEqual(expected))
-  })
-})
+  it("should return expected", () => {
+    return meuguia
+      .getDocumentaries()
+      .then(results => expect(results).toEqual(expected));
+  });
+});
 
-describe('getNews', () => {
-  nock('https://meuguia.tv')
+describe("getNews", () => {
+  nock("https://meuguia.tv")
     .get(/\/programacao/)
-    .reply(200, html)
+    .reply(200, html);
 
-  it('should return expected', () => {
-    return meuguia.getNews()
-      .then(results => expect(results).toEqual(expected))
-  })
-})
+  it("should return expected", () => {
+    return meuguia.getNews().then(results => expect(results).toEqual(expected));
+  });
+});
 
-describe('getOpen', () => {
-  nock('https://meuguia.tv')
+describe("getOpen", () => {
+  nock("https://meuguia.tv")
     .get(/\/programacao/)
-    .reply(200, html)
+    .reply(200, html);
 
-  it('should return expected', () => {
-    return meuguia.getOpen()
-      .then(results => expect(results).toEqual(expected))
-  })
-})
+  it("should return expected", () => {
+    return meuguia.getOpen().then(results => expect(results).toEqual(expected));
+  });
+});
 
-describe('getEntertainment', () => {
-  nock('https://meuguia.tv')
+describe("getEntertainment", () => {
+  nock("https://meuguia.tv")
     .get(/\/programacao/)
-    .reply(200, html)
+    .reply(200, html);
 
-  it('should return expected', () => {
-    return meuguia.getEntertainment()
-      .then(results => expect(results).toEqual(expected))
-  })
-})
+  it("should return expected", () => {
+    return meuguia
+      .getEntertainment()
+      .then(results => expect(results).toEqual(expected));
+  });
+});
