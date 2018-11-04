@@ -34,6 +34,27 @@ describe("getAll", () => {
   nock("https://meuguia.tv")
     .get(/\/programacao/)
     .reply(200, html);
+  nock("https://meuguia.tv")
+    .get(/\/programacao/)
+    .reply(200, html);
+  nock("https://meuguia.tv")
+    .get(/\/programacao/)
+    .reply(200, html);
+  nock("https://meuguia.tv")
+    .get(/\/programacao/)
+    .reply(200, html);
+  nock("https://meuguia.tv")
+    .get(/\/programacao/)
+    .reply(200, html);
+  nock("https://meuguia.tv")
+    .get(/\/programacao/)
+    .reply(200, html);
+  nock("https://meuguia.tv")
+    .get(/\/programacao/)
+    .reply(200, html);
+  nock("https://meuguia.tv")
+    .get(/\/programacao/)
+    .reply(200, html);
 
   it("should return expected", () => {
     return meuguia.getAll().then(results => expect(results).toEqual(expected));

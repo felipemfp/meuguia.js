@@ -4,7 +4,6 @@ const x = Xray();
 const URL_BASE = "https://meuguia.tv";
 
 const ENDPOINTS = {
-  ALL: "/programacao/categoria/Todos",
   MOVIES: "/programacao/categoria/Filmes",
   TVSERIES: "/programacao/categoria/Series",
   SPORTS: "/programacao/categoria/Esportes",
@@ -64,7 +63,31 @@ const get = url => {
   });
 };
 
-export const getAll = () => get(url(URL_BASE, ENDPOINTS.ALL));
+export const getAll = () => {
+  return new Promise((resolve, reject) => {
+    Promise.all(
+      Object.keys(ENDPOINTS).map(category =>
+        get(url(URL_BASE, ENDPOINTS[category]))
+      )
+    ).then(data => {
+      const channels = {};
+
+      resolve(
+        data.reduce((arr, curr) => {
+          const found = curr.filter(item => {
+            if (!channels[item.channel.id]) {
+              channels[item.channel.id] = true;
+              return true;
+            }
+            return false;
+          });
+
+          return arr.concat(found);
+        }, [])
+      );
+    }, reject);
+  });
+};
 
 export const getMovies = () => get(url(URL_BASE, ENDPOINTS.MOVIES));
 

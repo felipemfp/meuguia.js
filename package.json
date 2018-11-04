@@ -1,6 +1,6 @@
 {
   "name": "meuguia",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "meuguia.TV as npm module",
   "main": "lib/index.js",
   "scripts": {
