@@ -16,78 +16,70 @@ const ENDPOINTS = {
 
 const url = (urlBase, endpoint) => `${urlBase}${endpoint}`;
 
-const scrape = url => {
-  return x(url, "li", [
-    {
-      title: "li a@title",
-      time: "li h3.dark strong",
-      channel: {
-        id: "li a@href",
-        description: "li h2"
-      }
+const scrape = url => x(url, "li", [
+  {
+    title: "li a@title",
+    time: "li h3.dark strong",
+    channel: {
+      id: "li a@href",
+      description: "li h2"
     }
-  ]);
-};
+  }
+]);
 
-const normalize = (resolve, reject) => {
-  return (err, results) => {
-    if (err) {
-      return reject(err);
-    }
-    return resolve(
-      results
-        .map(result => {
-          if (!result.title) {
-            return;
+const normalize = (resolve, reject) => (err, results) => {
+  if (err) {
+    return reject(err);
+  }
+  return resolve(
+    results
+      .map(result => {
+        if (!result.title) {
+          return;
+        }
+        let { id, description } = result.channel;
+        return {
+          ...result,
+          channel: {
+            id: id
+              .split("/")
+              .slice(-1)[0]
+              .trim(),
+            description
           }
-          let { id, description } = result.channel;
-          return {
-            ...result,
-            channel: {
-              id: id
-                .split("/")
-                .slice(-1)[0]
-                .trim(),
-              description
-            }
-          };
-        })
-        .filter(result => result)
+        };
+      })
+      .filter(result => result)
+  );
+};
+
+const get = url => new Promise((resolve, reject) => {
+  scrape(url)(normalize(resolve, reject));
+});
+
+export const getAll = () => new Promise((resolve, reject) => {
+  Promise.all(
+    Object.keys(ENDPOINTS).map(category =>
+      get(url(URL_BASE, ENDPOINTS[category]))
+    )
+  ).then(data => {
+    const channels = {};
+
+    resolve(
+      data.reduce((arr, curr) => {
+        const found = curr.filter(({channel}) => {
+          if (!channels[channel.id]) {
+            channels[channel.id] = true;
+            return true;
+          }
+          return false;
+        });
+
+        return arr.concat(found);
+      }, [])
     );
-  };
-};
-
-const get = url => {
-  return new Promise((resolve, reject) => {
-    scrape(url)(normalize(resolve, reject));
-  });
-};
-
-export const getAll = () => {
-  return new Promise((resolve, reject) => {
-    Promise.all(
-      Object.keys(ENDPOINTS).map(category =>
-        get(url(URL_BASE, ENDPOINTS[category]))
-      )
-    ).then(data => {
-      const channels = {};
-
-      resolve(
-        data.reduce((arr, curr) => {
-          const found = curr.filter(item => {
-            if (!channels[item.channel.id]) {
-              channels[item.channel.id] = true;
-              return true;
-            }
-            return false;
-          });
-
-          return arr.concat(found);
-        }, [])
-      );
-    }, reject);
-  });
-};
+  }, reject);
+});
 
 export const getMovies = () => get(url(URL_BASE, ENDPOINTS.MOVIES));
 
